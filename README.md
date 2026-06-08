@@ -10,9 +10,9 @@ A Chrome side panel extension to browse, sort, filter, and export every product 
 
 ## Screenshots
 
-![Product Explorer – main view](https://raw.githubusercontent.com/leoyigit/shopline-product-explorer-extension/main/preview-1.png)
+![Product Explorer – main view](https://raw.githubusercontent.com/leoyigit/shopline-product-explorer-extension/main/screenshot-1.png)
 
-![Product Explorer – expanded card](https://raw.githubusercontent.com/leoyigit/shopline-product-explorer-extension/main/preview-2.png)
+![Product Explorer – expanded card](https://raw.githubusercontent.com/leoyigit/shopline-product-explorer-extension/main/screenshot-2.png)
 
 ---
 
