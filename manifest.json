@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Shopline Product Explorer",
+  "version": "1.0.0",
+  "description": "Browse, sort, and explore all products from any Shopline store. Built by Lèo Yigit Ekiz (leo@10x.ai).",
+  "author": "Lèo Yigit Ekiz <leo@10x.ai>",
+  "permissions": [
+    "sidePanel",
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.myshopify.com/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open Shopline Product Explorer"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

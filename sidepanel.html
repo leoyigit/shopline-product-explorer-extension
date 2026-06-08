@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Explorer</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="header-top">
+        <div class="logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span>Product Explorer</span>
+        </div>
+        <button id="refreshBtn" class="btn-icon" title="Refresh products">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div id="storeInfo" class="store-info hidden">
+        <div class="store-domains">
+          <div class="store-domain-row">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <span id="customDomain" class="domain-text"></span>
+          </div>
+          <div class="store-domain-row">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            <button id="storeUrl" class="domain-copy-btn" title="Click to copy">
+              <span id="storeText"></span>
+              <svg class="copy-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <svg class="check-icon hidden" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+        <span id="productCount" class="product-count"></span>
+      </div>
+
+      <div id="downloadBar" class="download-bar hidden">
+        <span class="download-label">Export all products:</span>
+        <div class="download-btns">
+          <button id="downloadJson" class="btn-download">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            JSON
+          </button>
+          <button id="downloadCsv" class="btn-download">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            CSV
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div id="emptyState" class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <p>Navigate to a Shopline or Shopify store to explore its products.</p>
+    </div>
+
+    <div id="loadingState" class="loading-state hidden">
+      <div class="spinner"></div>
+      <p id="loadingText">Fetching products…</p>
+    </div>
+
+    <div id="errorState" class="error-state hidden">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <p id="errorMsg"></p>
+    </div>
+
+    <div id="mainContent" class="main-content hidden">
+      <div class="controls">
+        <input id="searchInput" class="search-input" type="text" placeholder="Search products…" />
+        <div class="control-row">
+          <select id="sortSelect" class="select">
+            <option value="title-asc">Title A→Z</option>
+            <option value="title-desc">Title Z→A</option>
+            <option value="price-asc">Price Low→High</option>
+            <option value="price-desc">Price High→Low</option>
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="vendor-asc">Vendor A→Z</option>
+            <option value="type-asc">Type A→Z</option>
+          </select>
+          <select id="filterType" class="select">
+            <option value="">All Types</option>
+          </select>
+        </div>
+        <div class="control-row">
+          <select id="filterVendor" class="select">
+            <option value="">All Vendors</option>
+          </select>
+          <select id="filterAvail" class="select">
+            <option value="">Any Availability</option>
+            <option value="available">In Stock</option>
+            <option value="unavailable">Out of Stock</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="resultsBar" class="results-bar"></div>
+      <div id="productList" class="product-list"></div>
+    </div>
+  </div>
+
+  <footer class="credit">
+    Built by <a href="mailto:leo@10x.ai" class="credit-link">Lèo Yigit Ekiz</a>
+  </footer>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
